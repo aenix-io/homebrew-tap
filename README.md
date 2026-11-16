@@ -53,12 +53,9 @@ systemctl --user restart aeman.service
 
 ## Updating a formula
 
-Formulas are updated by hand when a new tag is released upstream. To bump `aeman`:
+A release tag in [aenix-io/aeman](https://github.com/aenix-io/aeman) opens a pull request here that points `Formula/aeman.rb` at the new tag tarball. CI on a pull request runs `brew style` and, for each changed formula, a strict online audit, a build from source and `brew test` on macOS and Linux.
 
-1. Set `url` in `Formula/aeman.rb` to the new tag tarball.
-2. Update `sha256` with the output of `curl --silent --location <url> | shasum --algorithm 256`.
-3. Check the build with `brew install --build-from-source aenix-io/tap/aeman`, `brew test aeman` and `brew audit --strict --online aenix-io/tap/aeman`.
-4. Open a pull request.
+To bump by hand instead, set `url` to the tag tarball, set `sha256` to the output of `curl --silent --location <url> | shasum --algorithm 256`, and open a pull request.
 
 ## License
 
