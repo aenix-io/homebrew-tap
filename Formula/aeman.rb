@@ -19,6 +19,49 @@ class Aeman < Formula
     system "go", "build", *std_go_args(ldflags: "-X main.version=v#{version}"), "./cmd/aeman"
   end
 
+  def caveats
+    <<~EOS
+      The MCP daemon can run under one of two managers. Use only one: both
+      default to the same data directory and port, and the second one fails
+      to start on the held lock.
+
+      brew services (Homebrew 6.0.15 or newer): put the board in
+      ~/.homebrew/services/aeman.env, or in
+      $XDG_CONFIG_HOME/homebrew/services/aeman.env if XDG_CONFIG_HOME is set, e.g.
+        AEMAN_REPOS=board=https://github.com/OWNER/REPO.git
+      then run
+        brew services start aeman
+      After `brew upgrade aeman` or an edit of that file:
+        brew services restart aeman
+      The service does not inherit your shell: if it sets AEMAN_TZ,
+      GH_CONFIG_DIR, GLAB_CONFIG_DIR or XDG_CONFIG_HOME, copy them there too.
+      Homebrew skips the file if it is group- or world-writable.
+
+      aeman service: install the unit from the Homebrew binary, so the unit
+      keeps pointing at it across upgrades:
+        #{opt_bin}/aeman service install --repo board=https://github.com/OWNER/REPO.git
+      After `brew upgrade aeman`, restart the daemon:
+        macOS: launchctl kill SIGTERM gui/$(id -u)/io.aenix.aeman
+        Linux: systemctl --user restart aeman.service
+
+      To switch from `aeman service` to brew services, run
+      `aeman service uninstall` first; the other way, `brew services stop aeman`.
+    EOS
+  end
+
+  service do
+    run [opt_bin/"aeman", "mcp"]
+    environment_variables AEMAN_MCP_LISTEN: "127.0.0.1:8766", PATH: std_service_path_env
+    keep_alive true
+    # systemd's default 100ms restart delay trips its 5-starts-in-10s limit and leaves the unit failed.
+    restart_delay 5
+    process_type :background
+    # stopTimeout() in aeman's cmd/aeman/service.go: a 30s stop budget plus 5s slack.
+    stop_timeout 35
+    log_path var/"log/aeman.log"
+    error_log_path var/"log/aeman.log"
+  end
+
   test do
     assert_equal "aeman v#{version}", shell_output("#{bin}/aeman --version").strip
   end
