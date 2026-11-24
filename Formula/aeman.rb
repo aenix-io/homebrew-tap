@@ -5,21 +5,21 @@
 class Aeman < Formula
   desc "Short-term planning for engineering teams with web UI and MCP server"
   homepage "https://github.com/aenix-io/aeman"
-  version "0.55.4"
+  version "0.55.5"
   license "Apache-2.0"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/aenix-io/aeman/releases/download/v0.55.4/aeman_0.55.4_darwin_amd64.tar.gz"
-      sha256 "4df1aec8ae4f226d0dde46db68c0ec857fdaf23ca0b23b58d8d3d5af0755881b"
+      url "https://github.com/aenix-io/aeman/releases/download/v0.55.5/aeman_0.55.5_darwin_amd64.tar.gz"
+      sha256 "602cbc87ee33afda21244b4b3f4914d5786e540a2dd3b881ab2e61427c60990d"
 
       define_method(:install) do
         bin.install "aeman"
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/aenix-io/aeman/releases/download/v0.55.4/aeman_0.55.4_darwin_arm64.tar.gz"
-      sha256 "df1ac181b670edc98a08032fe760c00cfcf77079a5efc30900c444d4ae6fcba9"
+      url "https://github.com/aenix-io/aeman/releases/download/v0.55.5/aeman_0.55.5_darwin_arm64.tar.gz"
+      sha256 "14f3fac86c21a9ac81d36cd3551702b0d5d382a107b6e80e8b53f55fe29798cd"
 
       define_method(:install) do
         bin.install "aeman"
@@ -29,15 +29,15 @@ class Aeman < Formula
 
   on_linux do
     if Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-      url "https://github.com/aenix-io/aeman/releases/download/v0.55.4/aeman_0.55.4_linux_amd64.tar.gz"
-      sha256 "0aaa2ad192c62cdc4d162875b56f0a0fc4f0ca6252a647853f3fcaca4b3eb0aa"
+      url "https://github.com/aenix-io/aeman/releases/download/v0.55.5/aeman_0.55.5_linux_amd64.tar.gz"
+      sha256 "046e30c9891d0a30d95f8d963369205905d45f065ec23f0cef9c4f28c5aaa5bc"
       define_method(:install) do
         bin.install "aeman"
       end
     end
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/aenix-io/aeman/releases/download/v0.55.4/aeman_0.55.4_linux_arm64.tar.gz"
-      sha256 "2ba1bb0c21dbc9e2cf64b5ab8e195143ba4631045776a0fb5a315f7f40907f9d"
+      url "https://github.com/aenix-io/aeman/releases/download/v0.55.5/aeman_0.55.5_linux_arm64.tar.gz"
+      sha256 "5d8e2762f8139a81c58dc7249b7c646d8e151d180fe92b683653919bd18995c8"
       define_method(:install) do
         bin.install "aeman"
       end
